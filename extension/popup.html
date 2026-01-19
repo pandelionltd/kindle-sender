@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #333;
+    }
+
+    .header img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .header h1 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .page-info {
+      background: #16213e;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .page-url {
+      font-size: 11px;
+      color: #888;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #e94560;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #ff6b6b;
+    }
+
+    .btn-secondary {
+      background: #0f3460;
+      color: #eee;
+    }
+
+    .btn-secondary:hover {
+      background: #1a4a7a;
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      text-align: center;
+      display: none;
+    }
+
+    .status.success {
+      display: block;
+      background: #1e5128;
+      color: #9de87a;
+    }
+
+    .status.error {
+      display: block;
+      background: #5c1616;
+      color: #ff8a8a;
+    }
+
+    .status.loading {
+      display: block;
+      background: #2d3a4a;
+      color: #88c0d0;
+    }
+
+    .queue-info {
+      margin-top: 12px;
+      padding: 8px;
+      background: #0f3460;
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .queue-count {
+      font-weight: 600;
+      color: #e94560;
+    }
+
+    .footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer a {
+      color: #888;
+      font-size: 11px;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: #e94560;
+    }
+
+    .server-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #666;
+    }
+
+    .status-dot.online {
+      background: #4caf50;
+    }
+
+    .status-dot.offline {
+      background: #f44336;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icons/icon48.png" alt="Kindle">
+    <h1>Send to Kindle</h1>
+  </div>
+
+  <div class="page-info">
+    <div class="page-title" id="pageTitle">Loading...</div>
+    <div class="page-url" id="pageUrl"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" id="sendNow">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+      </svg>
+      Send to Kindle Now
+    </button>
+    <button class="btn-secondary" id="addToQueue">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </svg>
+      Add to Reading Queue
+    </button>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <div class="queue-info" id="queueInfo" style="display: none;">
+    <span class="queue-count" id="queueCount">0</span> articles in queue
+    <button class="btn-secondary" id="sendQueue" style="margin-top: 8px; padding: 8px;">
+      Send All to Kindle
+    </button>
+  </div>
+
+  <div class="footer">
+    <a href="options.html" target="_blank">⚙️ Settings</a>
+    <div class="server-status">
+      <span class="status-dot" id="serverStatus"></span>
+      <span id="serverStatusText">Checking...</span>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

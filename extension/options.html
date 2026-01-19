@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Send to Kindle - Settings</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #16213e;
+      color: #eee;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #e94560;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #888;
+      margin-top: 6px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #e94560;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #ff6b6b;
+    }
+
+    .btn-secondary {
+      background: #0f3460;
+      color: #eee;
+      margin-left: 12px;
+    }
+
+    .btn-secondary:hover {
+      background: #1a4a7a;
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .status.success {
+      display: block;
+      background: #1e5128;
+      color: #9de87a;
+    }
+
+    .status.error {
+      display: block;
+      background: #5c1616;
+      color: #ff8a8a;
+    }
+
+    .section {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #333;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Settings</h1>
+    <p class="subtitle">Configure your Send to Kindle extension</p>
+
+    <div class="section">
+      <h2>Server Configuration</h2>
+      <div class="form-group">
+        <label for="serverUrl">Server URL</label>
+        <input type="url" id="serverUrl" placeholder="http://localhost:5123">
+        <p class="help-text">The URL of your Kindle Sender server</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Connection Test</h2>
+      <p class="help-text" style="margin-bottom: 12px;">
+        Test if your server is running and properly configured.
+      </p>
+      <button class="btn-secondary" id="testConnection">Test Connection</button>
+      <div class="status" id="testStatus"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" id="save">Save Settings</button>
+      <button class="btn-secondary" id="reset">Reset to Defaults</button>
+    </div>
+
+    <div class="status" id="saveStatus"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
