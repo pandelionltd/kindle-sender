@@ -22,8 +22,9 @@ from ebooklib import epub
 from bs4 import BeautifulSoup
 import requests
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from server/.env regardless of CWD
+ENV_PATH = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
 
 app = Flask(__name__)
 CORS(app, origins=["*"])  # Allow browser extension to connect
