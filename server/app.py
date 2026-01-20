@@ -35,6 +35,7 @@ SMTP_USERNAME = os.getenv('SMTP_USERNAME')
 SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
 KINDLE_EMAIL = os.getenv('KINDLE_EMAIL')
 SERVER_PORT = int(os.getenv('SERVER_PORT', 5123))
+FROM_EMAIL = os.getenv('FROM_EMAIL')
 
 # Store for queued articles (in production, use a database)
 article_queue = []
@@ -142,7 +143,7 @@ def send_to_kindle(epub_path: str, title: str) -> dict:
 
     try:
         msg = MIMEMultipart()
-        msg['From'] = SMTP_USERNAME
+        msg['From'] = FROM_EMAIL or SMTP_USERNAME
         msg['To'] = KINDLE_EMAIL
         msg['Subject'] = f'Kindle: {title}'
 
